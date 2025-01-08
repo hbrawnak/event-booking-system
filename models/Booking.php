@@ -16,7 +16,7 @@ class Booking {
         $stmt->execute($data);
     }
 
-    public function getFilteredData($filters)
+    public function getFilteredData($filters, $limit = 10, $offset = 0)
     {
         $query = "SELECT * FROM bookings WHERE 1=1";
         $params = [];
@@ -34,8 +34,17 @@ class Booking {
             $params[':event_date'] = $filters['event_date'];
         }
 
+        $query .= " ORDER BY `id` DESC LIMIT :limit OFFSET :offset";
+
         $stmt = $this->db->prepare($query);
-        $stmt->execute($params);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
