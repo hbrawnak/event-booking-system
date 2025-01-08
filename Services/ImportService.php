@@ -35,6 +35,8 @@ class ImportService
             throw new Exception("Invalid JSON format.");
         }
 
+        echo "Importing data .." . PHP_EOL;
+
         $employees = [];
         $events = [];
         $participations = [];
@@ -51,6 +53,8 @@ class ImportService
         $this->importParticipation(
             $this->mapEmployeeIDForParticipation($participations)
         );
+
+        echo "Data imported successfully." . PHP_EOL;
     }
 
     private function mapEmployeeData($item)
