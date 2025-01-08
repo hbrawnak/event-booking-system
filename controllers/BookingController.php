@@ -6,11 +6,12 @@ require_once __DIR__ . '/../models/Booking.php';
 class BookingController
 {
     private $booking;
+    private $db;
 
     public function __construct()
     {
-        $db = getDatabaseConnection();
-        $this->booking = new Booking($db);
+        $this->db = getDatabaseConnection();
+        $this->booking = new Booking($this->db);
     }
 
     public function import() {
@@ -21,5 +22,10 @@ class BookingController
             $this->booking->create($row);
             print_r('data inserted');
         }
+    }
+
+    public function getData($filters)
+    {
+        return $this->booking->getFilteredData($filters);
     }
 }
