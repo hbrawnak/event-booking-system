@@ -9,7 +9,13 @@ $filters = [
     'event_date' => isset($_GET['event_date']) ? $_GET['event_date'] : '',
 ];
 
-$data = $controller->getData($filters);
-//print_r($data);
+$result = $controller->getData($filters);
+
+$fees = array_map(function ($item) {
+    return $item['participation_fee'];
+}, $result);
+
+$totalPrice = array_sum($fees);
+
 
 include __DIR__ . '/views/booking.php';
