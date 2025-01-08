@@ -5,6 +5,11 @@ require_once __DIR__ . '/../models/Events.php';
 require_once __DIR__ . '/../models/Participants.php';
 require_once __DIR__ . '/../utils/VersionComparator.php';
 
+/**
+ * Class ImportService
+ * Handles the data import functionality for employees, events, and participations.
+ * Ensures data integrity and updates database with new or modified data.
+ */
 class ImportService
 {
     private $db;
@@ -22,6 +27,12 @@ class ImportService
         $this->participants = new Participants($db);
     }
 
+    /**
+     * Imports data from a JSON file and populates the database.
+     *
+     * @param string $filePath Path to the JSON file to be imported.
+     * @throws Exception If file is not found or JSON is invalid.
+     */
     public function import($filePath)
     {
         if (!file_exists($filePath)) {
@@ -37,19 +48,21 @@ class ImportService
 
         echo "Importing data .." . PHP_EOL;
 
+        // Initialize arrays to hold parsed data.
         $employees = [];
         $events = [];
         $participations = [];
 
+        // Parse data into individual entities.
         foreach ($data as $item) {
             $employees[] = $this->mapEmployeeData($item);
             $events[] = $this->mapEventData($item);
             $participations[] = $this->mapParticipationData($item);
         }
 
+        // Import the parsed data into the respective tables.
         $this->importEmployee($employees);
         $this->importEvents($events);
-
         $this->importParticipation(
             $this->mapEmployeeIDForParticipation($participations)
         );
@@ -57,6 +70,12 @@ class ImportService
         echo "Data imported successfully." . PHP_EOL;
     }
 
+    /**
+     * Maps raw employee data to the required format for database insertion.
+     *
+     * @param array $item Raw data item.
+     * @return array Mapped employee data.
+     */
     private function mapEmployeeData($item)
     {
         return [
@@ -66,6 +85,12 @@ class ImportService
         ];
     }
 
+    /**
+     * Maps raw event data to the required format for database insertion.
+     *
+     * @param array $item Raw data item.
+     * @return array Mapped event data.
+     */
     private function mapEventData($item)
     {
         return [
@@ -76,6 +101,12 @@ class ImportService
         ];
     }
 
+    /**
+     * Maps raw participation data to the required format for database insertion.
+     *
+     * @param array $item Raw data item.
+     * @return array Mapped participation data.
+     */
     private function mapParticipationData($item)
     {
         return [
@@ -87,6 +118,11 @@ class ImportService
         ];
     }
 
+    /**
+     * Imports employee data into the database, avoiding duplicates.
+     *
+     * @param array $employees Array of employee data.
+     */
     private function importEmployee($employees)
     {
         foreach ($employees as $employee) {
@@ -97,6 +133,12 @@ class ImportService
         }
     }
 
+    /**
+     * Inserts a single employee record or retrieves the ID of an existing one.
+     *
+     * @param array $employee Employee data.
+     * @return int Employee ID.
+     */
     private function insertEmployee($employee)
     {
         $existingEmployee = $this->employees->getEmployee($employee['employee_mail']);
@@ -107,6 +149,11 @@ class ImportService
         }
     }
 
+    /**
+     * Imports event data into the database, avoiding duplicates.
+     *
+     * @param array $events Array of event data.
+     */
     private function importEvents($events)
     {
         foreach ($events as $event) {
@@ -114,6 +161,12 @@ class ImportService
         }
     }
 
+    /**
+     * Inserts a single event record or retrieves the ID of an existing one.
+     *
+     * @param array $event Event data.
+     * @return int Event ID.
+     */
     private function insertEvent($event)
     {
         $existingEvent = $this->events->getEvent($event['event_id']);
@@ -125,13 +178,24 @@ class ImportService
         }
     }
 
-    private function importParticipation($events)
+    /**
+     * Imports participation data into the database.
+     *
+     * @param array $participations Array of participation data.
+     */
+    private function importParticipation($participations)
     {
-        foreach ($events as $event) {
-            $this->insertParticipation($event);
+        foreach ($participations as $participation) {
+            $this->insertParticipation($participation);
         }
     }
 
+    /**
+     * Inserts a single participation record or retrieves the ID of an existing one.
+     *
+     * @param array $participation Participation data.
+     * @return int Participation ID.
+     */
     private function insertParticipation($participation)
     {
         $existingParticipants = $this->participants->getParticipant($participation);
@@ -142,6 +206,12 @@ class ImportService
         }
     }
 
+    /**
+     * Maps employee email to their corresponding ID for participations.
+     *
+     * @param array $participations Array of participation data.
+     * @return array Updated participation data with employee IDs.
+     */
     private function mapEmployeeIDForParticipation($participations)
     {
         $newParticipation = [];
@@ -154,7 +224,15 @@ class ImportService
         return $newParticipation;
     }
 
-    private function convertTimezone($date, $version) {
+    /**
+     * Converts event date based on version.
+     *
+     * @param string $date Event date.
+     * @param string $version Event version.
+     * @return string Converted date.
+     */
+    private function convertTimezone($date, $version)
+    {
         $eventDate = new DateTime($date);
         if (VersionComparator::isOldVersion($version)) {
             $eventDate->setTimezone(new DateTimeZone('Europe/Berlin'));
@@ -164,4 +242,3 @@ class ImportService
         return $eventDate->format('Y-m-d H:i:s');
     }
 }
-

@@ -3,6 +3,12 @@
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../Services/ImportService.php';
 
+
+/**
+ * Class ImportController
+ * Responsible for managing the import process, including data loading
+ * and error handling during the import operation.
+ */
 class ImportController
 {
     private $db;
@@ -14,6 +20,11 @@ class ImportController
         $this->importService = new ImportService($this->db);
     }
 
+    /**
+     * Handles the import operation.
+     * This method attempts to import data from a predefined JSON file and
+     * captures any exceptions that occur during the process.
+     */
     public function import() {
         try {
             $file_path = __DIR__ . '/../data/data.json';
