@@ -16,11 +16,9 @@ $offset = ($page - 1) * $limit;
 
 $result = $controller->getData($filters, $limit, $offset);
 
-$fees = array_map(function ($item) {
+$totalPrice = array_sum(array_map(function ($item) {
     return $item['participation_fee'];
-}, $result);
-
-$totalPrice = array_sum($fees);
+}, $result));
 
 
 include __DIR__ . '/views/participants.php';
