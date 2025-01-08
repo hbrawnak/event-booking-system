@@ -3,6 +3,8 @@
  * @var array $result
  * @var array $filters
  * @var float $totalPrice
+ * @var int $page
+ * @var int $limit
  */
 ?>
 
@@ -51,6 +53,17 @@
     </tr>
     </tbody>
 </table>
+
+<?php if ($totalPrice > 0): ?>
+    <div class="pagination">
+        <?php if ($page == 1): ?>
+        <a href="#">Previous</a>
+        <?php else: ?>
+            <a href="?page=<?= $page - 1 ?>&limit=<?= $limit ?>" class="prev" <?= ($page <= 1) ? 'disabled' : '' ?>>Previous</a>
+        <?php endif; ?>
+        <a href="?page=<?= $page + 1 ?>&limit=<?= $limit ?>" class="next">Next</a>
+    </div>
+<?php endif; ?>
 
 </body>
 </html>
