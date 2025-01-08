@@ -1,19 +1,25 @@
 <?php
 
+require_once __DIR__ . '/DatabaseConnectionType.php';
+require_once __DIR__ . '/DatabaseFactory.php';
+
 function getDatabaseConnection() {
-    $host = '127.0.0.1';
-    $port = 3306;
-    $dbname = 'bookingdb';
-    $username = 'user';
-    $password = 'password';
+    $config = [
+        'host' => 'db',
+        'port' => 3306,
+        'database' => 'bookingdb',
+        'username' => 'user',
+        'password' => 'password',
+    ];
 
     try {
-        $dsn = "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8mb4";
-        $pdo = new PDO($dsn, $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $pdo;
+        $databaseType = DatabaseConnectionType::MYSQL;
+        $adapter = DatabaseFactory::create($databaseType, $config);
+        return $adapter->connect();
     } catch (PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
+    } catch (Exception $e) {
+        echo "An unexpected error occurred: " . $e->getMessage();
     }
 }
 
