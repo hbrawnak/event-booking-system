@@ -1,6 +1,6 @@
 <?php
-require_once 'controllers/BookingController.php';
+require_once 'controllers/ImportController.php';
 
-$controller = new BookingController();
+$controller = new ImportController();
 $controller->import();
 
