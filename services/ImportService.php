@@ -1,9 +1,14 @@
 <?php
 
-require_once __DIR__ . '/../models/Employee.php';
-require_once __DIR__ . '/../models/Events.php';
-require_once __DIR__ . '/../models/Participants.php';
-require_once __DIR__ . '/../utils/VersionComparator.php';
+namespace App\services;
+
+use App\models\Event;
+use App\models\Employee;
+use App\models\Participant;
+use App\utils\VersionComparator;
+use DateTime;
+use DateTimeZone;
+use Exception;
 
 /**
  * Class ImportService
@@ -12,7 +17,6 @@ require_once __DIR__ . '/../utils/VersionComparator.php';
  */
 class ImportService
 {
-    private $db;
     private $employees;
     private $events;
     private $participants;
@@ -21,10 +25,9 @@ class ImportService
 
     public function __construct($db)
     {
-        $this->db = $db;
         $this->employees = new Employee($db);
-        $this->events = new Events($db);
-        $this->participants = new Participants($db);
+        $this->events = new Event($db);
+        $this->participants = new Participant($db);
     }
 
     /**
