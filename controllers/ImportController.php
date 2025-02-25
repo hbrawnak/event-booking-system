@@ -1,8 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../Services/ImportService.php';
+namespace App\controllers;
 
+use App\services\ImportService;
+use Exception;
 
 /**
  * Class ImportController
@@ -11,13 +12,11 @@ require_once __DIR__ . '/../Services/ImportService.php';
  */
 class ImportController
 {
-    private $db;
     private $importService;
 
-    public function __construct()
+    public function __construct($db)
     {
-        $this->db = getDatabaseConnection();
-        $this->importService = new ImportService($this->db);
+        $this->importService = new ImportService($db);
     }
 
     /**

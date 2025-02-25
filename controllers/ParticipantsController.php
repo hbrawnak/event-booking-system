@@ -1,7 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/Participants.php';
+namespace App\controllers;
+
+use App\models\Participant;
+use PDO;
 
 /**
  * Class ParticipantsController
@@ -10,13 +12,11 @@ require_once __DIR__ . '/../models/Participants.php';
  */
 class ParticipantsController
 {
-    private $db;
     private $participants;
 
-    public function __construct()
+    public function __construct(PDO $db)
     {
-        $this->db = getDatabaseConnection();
-        $this->participants = new Participants($this->db);
+        $this->participants = new Participant($db);
     }
 
     /**
