@@ -1,9 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../config/database.php';
+use App\config\DBConnection;
 
 try {
-    $db = getDatabaseConnection();
+    $db = DBConnection::getConnection();
 
     $queries = [
         "CREATE TABLE employees (
