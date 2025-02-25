@@ -1,5 +1,6 @@
 <?php
 
+namespace App\database;
 class DatabaseConnectionType
 {
     const MYSQL = 'mysql';

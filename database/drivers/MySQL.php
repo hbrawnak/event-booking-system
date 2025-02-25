@@ -1,8 +1,14 @@
 <?php
 
-require_once __DIR__ . '/ConnectionInterface.php';
+namespace App\database\drivers;
 
-class MySQL implements ConnectionInterface {
+use App\contracts\ConnectionInterface;
+use Exception;
+use PDO;
+use PDOException;
+
+class MySQL implements ConnectionInterface
+{
     private $host;
     private $port;
     private $database;
@@ -10,7 +16,8 @@ class MySQL implements ConnectionInterface {
     private $password;
     private $pdo;
 
-    public function __construct($config) {
+    public function __construct($config)
+    {
         $this->host = $config['host'];
         $this->port = $config['port'];
         $this->database = $config['database'];
@@ -18,7 +25,8 @@ class MySQL implements ConnectionInterface {
         $this->password = $config['password'];
     }
 
-    public function connect() {
+    public function connect()
+    {
         try {
             $dsn = "mysql:host={$this->host};port={$this->port};dbname={$this->database}";
             $this->pdo = new PDO($dsn, $this->username, $this->password);
