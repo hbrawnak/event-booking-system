@@ -37,11 +37,21 @@ kubectl apply -f k8s/mysql-pvc.yaml
 kubectl apply -f k8s/mysql-deployment.yaml
 kubectl apply -f k8s/php-pvc.yaml
 kubectl apply -f k8s/php-deployment.yaml
+kubectl apply -f php-service.yaml
 ```
 
 ### Check the status of k8s pods
 ``
 kubectl get pods
+``
+
+### Get the external IP
+``
+kubectl get service php-service
+``
+or
+``
+kubectl get svc php-service
 ``
 
 ### Author:
