@@ -1,6 +1,10 @@
 <?php
 
-class Participants {
+namespace App\models;
+
+use PDO;
+
+class Participant {
     private $db;
 
     public function __construct($db) {

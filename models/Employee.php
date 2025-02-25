@@ -1,5 +1,7 @@
 <?php
 
+namespace App\models;
+
 class Employee {
     private $db;
 
