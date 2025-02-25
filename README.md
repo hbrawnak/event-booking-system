@@ -31,6 +31,19 @@ Use the application to filter data by employee_name, event_name, or event_date.
 vendor/bin/phpunit --testdox
 ```
 
+### Kubernetes Deployment
+``` 
+kubectl apply -f k8s/mysql-pvc.yaml
+kubectl apply -f k8s/mysql-deployment.yaml
+kubectl apply -f k8s/php-pvc.yaml
+kubectl apply -f k8s/php-deployment.yaml
+```
+
+### Check the status of k8s pods
+``
+kubectl get pods
+``
+
 ### Author:
 
 [Md Habibur Rahman](https://habib.im)
