@@ -1,6 +1,9 @@
 ## Event Booking System
 
-This application allows users to manage event bookings, filter data based on employee name, event name, and event date, and view relevant records.
+This application is an Event Booking System that allows users to easily manage bookings, filter event 
+data based on employee name, event name, and event date, and view relevant records. The system is built 
+using plain PHP, adhering to OOP best practices, SOLID and relies on MySQL for database management. 
+The application has been successfully deployed on Kubernetes, ensuring scalability and high availability.
 
 ### Installation Process:
 To run the app please follow below steps and commands <br/>
