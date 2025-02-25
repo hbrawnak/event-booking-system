@@ -26,6 +26,11 @@ http://localhost:8080
 ```
 Use the application to filter data by employee_name, event_name, or event_date.
 
+### Run Tests
+```
+vendor/bin/phpunit --testdox
+```
+
 ### Author:
 
 [Md Habibur Rahman](https://habib.im)
