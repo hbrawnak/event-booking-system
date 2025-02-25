@@ -54,7 +54,7 @@
     </tbody>
 </table>
 
-<?php if ($totalPrice > 0): ?>
+<?php if (count($result) > 0): ?>
     <div class="pagination">
         <?php if ($page == 1): ?>
         <a href="#">Previous</a>
@@ -62,6 +62,15 @@
             <a href="?page=<?= $page - 1 ?>&limit=<?= $limit ?>" class="prev" <?= ($page <= 1) ? 'disabled' : '' ?>>Previous</a>
         <?php endif; ?>
         <a href="?page=<?= $page + 1 ?>&limit=<?= $limit ?>" class="next">Next</a>
+    </div>
+<?php else: ?>
+    <div class="pagination">
+        <?php if ($page == 1): ?>
+            <a href="#">Previous</a>
+        <?php else: ?>
+            <a href="?page=<?= $page - 1 ?>&limit=<?= $limit ?>" class="prev" <?= ($page <= 1) ? 'disabled' : '' ?>>Previous</a>
+        <?php endif; ?>
+            <a href="#">Next</a>
     </div>
 <?php endif; ?>
 
