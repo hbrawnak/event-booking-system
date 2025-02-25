@@ -1,7 +1,13 @@
 <?php
-require_once __DIR__ . '/controllers/ParticipantsController.php';
 
-$controller = new ParticipantsController();
+use App\controllers\ParticipantsController;
+use App\config\DBConnection;
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+$db = DBConnection::getConnection();
+
+$controller = new ParticipantsController($db);
 
 $filters = [
     'employee_name' => isset($_GET['employee_name']) ? $_GET['employee_name'] : '',
